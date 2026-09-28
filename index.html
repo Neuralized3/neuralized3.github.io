@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Neuralized</title>
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧠</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="preload" as="image" href="assets/bg.jpg" fetchpriority="high">
+    <link rel="stylesheet" href="style.css">
+    <script>
+        if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    </script>
+</head>
+
+<body>
+    <main>
+        <section id="hero">
+            <h1 id="intro">Tiash M. <span>(née. Kryzęn)</span></h1>
+            <a id="scroll-hint" href="#portfolio" aria-label="Scroll to details">scroll ↓</a>
+        </section>
+
+        <section id="portfolio">
+            <div id="details" class="reveal from-left">
+                <h2>Σ Knowledge = <div
+                        style="display: inline-flex; flex-direction: column; align-items: center; vertical-align: middle;">
+                        <span>lim</span>
+                        <span style="font-size: 0.75em; line-height: 1;">x &rarr; &infin;</span>
+                    </div> f(data)</h2>
+
+                <h3><em>currently:</em></h3>
+                <ul>
+                    <li>Learning AI/ML</li>
+                    <li>Studying algorithms &amp; mathematics</li>
+                    <li>Building an indie game</li>
+                </ul>
+
+                <h3><em>interests:</em></h3>
+                <ul>
+                    <li>Latin/Cyrillic Scripts</li>
+                    <li>Artificial Intelligence</li>
+                    <li>Psychology and Behavioural mechanisms</li>
+                    <li>Computational Mathematics</li>
+                </ul>
+
+                <h3><em>goal:</em></h3>
+                <blockquote>Understand intelligence well enough to build it.</blockquote>
+                <h3><em>elsewhere:</em></h3>
+                <nav id="socials" aria-label="Social links">
+                    <a href="https://codeforces.com/profile/neuralized" target="_blank" rel="noopener"
+                        aria-label="Codeforces">
+                        <img src="https://cdn.simpleicons.org/codeforces" alt="" width="24" height="24">
+                    </a>
+                    <a href="https://github.com/Neuralized3" target="_blank" rel="noopener" aria-label="GitHub">
+                        <img src="https://cdn.simpleicons.org/github/white" alt="" width="24" height="24">
+                    </a> <a href="https://monkeytype.com/profile/neuralized" target="_blank" rel="noopener"
+                        aria-label="Monkeytype">
+                        <img src="https://cdn.simpleicons.org/monkeytype" alt="" width="24" height="24">
+                    </a>
+                    <a href="mailto:officiallyneuralized@gmail.com" aria-label="Email">
+                        <!-- Mail icon using standard SVG -->
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path
+                                d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+                        </svg>
+                    </a>
+                </nav>
+            </div>
+
+            <figure id="pic" class="reveal from-right">
+                <img src="assets/pfp.jpg" alt="Tiash M." decoding="async">
+            </figure>
+        </section>
+    </main>
+
+    <script>
+        (() => {
+            const reveals = document.querySelectorAll('.reveal');
+            const portfolio = document.getElementById('portfolio');
+            const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+            document.getElementById('scroll-hint').addEventListener('click', (e) => {
+                e.preventDefault();
+                portfolio.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
+            });
+
+            if (!('IntersectionObserver' in window)) {
+                reveals.forEach((el) => el.classList.add('show'));
+                return;
+            }
+
+            const revealIO = new IntersectionObserver((entries, io) => {
+                for (const e of entries) {
+                    if (!e.isIntersecting) continue;
+                    e.target.classList.add('show');
+                    io.unobserve(e.target);
+                }
+            }, { threshold: 0.2 });
+            reveals.forEach((el) => revealIO.observe(el));
+
+            new IntersectionObserver(([e]) => {
+                document.body.classList.toggle('dim', e.intersectionRatio < 0.5);
+            }, { threshold: 0.5 }).observe(document.getElementById('hero'));
+        })();
+    </script>
+</body>
+
+</html>
