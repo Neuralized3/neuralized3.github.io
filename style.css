@@ -182,6 +182,8 @@ blockquote {
 }
 
 #socials a {
+    display: flex;
+    align-items: center;
     padding: 0.5rem 1rem;
     border: 1px solid var(--border);
     border-radius: 2px;
@@ -227,21 +229,46 @@ blockquote {
     opacity: 0;
     transition: opacity 0.8s ease, transform 0.8s ease;
 }
-.from-left  { transform: translateX(-60px); }
-.from-right { transform: translateX(60px); }
+
+.from-left {
+    transform: translateX(-60px);
+}
+
+.from-right {
+    transform: translateX(60px);
+}
+
 .reveal.show {
     opacity: 1;
     transform: none;
 }
-#pic.reveal { transition-delay: 0.15s; }
+
+#pic.reveal {
+    transition-delay: 0.15s;
+}
 
 @keyframes rise {
-    from { opacity: 0; transform: translateY(20px); }
-    to   { opacity: 1; transform: none; }
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
 }
+
 @keyframes bob {
-    0%, 100% { transform: translateY(0); }
-    50%      { transform: translateY(6px); }
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(6px);
+    }
 }
 
 @media (min-width: 721px) and (max-width: 1024px) {
@@ -250,6 +277,7 @@ blockquote {
         gap: 2.5rem;
         padding-inline: 2rem;
     }
+
     #pic {
         width: 100%;
         max-width: 300px;
@@ -274,17 +302,51 @@ blockquote {
         padding: 1.4rem 1.5rem;
         font-size: 0.95rem;
     }
-    #details::before { inset: 6px; }
-    #details h2 { font-size: clamp(1.2rem, 5vw, 1.55rem); margin-bottom: 0.9rem; }
-    #details h3 { margin: 0.9rem 0 0.3rem; font-size: 1rem; }
-    #socials { margin-top: 1.25rem; gap: 0.5rem; }
-    #socials a { padding: 0.4rem 0.8rem; font-size: 0.85rem; }
 
-    .from-left, .from-right { transform: translateY(40px); }
+    #details::before {
+        inset: 6px;
+    }
+
+    #details h2 {
+        font-size: clamp(1.2rem, 5vw, 1.55rem);
+        margin-bottom: 0.9rem;
+    }
+
+    #details h3 {
+        margin: 0.9rem 0 0.3rem;
+        font-size: 1rem;
+    }
+
+    #socials {
+        margin-top: 1.25rem;
+        gap: 0.5rem;
+    }
+
+    #socials a {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.85rem;
+    }
+
+    .from-left,
+    .from-right {
+        transform: translateY(40px);
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    #intro, #scroll-hint { animation: none; }
-    body::after { transition: none; }
-    .reveal { transition: none; opacity: 1; transform: none; }
+
+    #intro,
+    #scroll-hint {
+        animation: none;
+    }
+
+    body::after {
+        transition: none;
+    }
+
+    .reveal {
+        transition: none;
+        opacity: 1;
+        transform: none;
+    }
 }

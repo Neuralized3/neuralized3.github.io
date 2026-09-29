@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="description" content="Projects and roadmap.">
+    <meta name="theme-color" content="#0b0e1a">
+    <title>Lab</title>
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✦</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.csom" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="preload" as="image" href="../assets/bg2.jpg" fetchpriority="high">
+    <link rel="stylesheet" href="style.css">
+    <script>
+        document.documentElement.classList.add('js');
+        if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    </script>
+</head>
+
+<body>
+    <main>
+        <section id="hero">
+            <h1 id="intro">Laboratory. <span>(projects &amp; roadmap)</span></h1>
+            <a id="scroll-hint" href="#portfolio" aria-label="Scroll to details">scroll ↓</a>
+        </section>
+
+        <section id="portfolio">
+            <article id="details" class="reveal">
+
+                <section aria-labelledby="projects-title">
+                    <h2 id="projects-title">Projects</h2>
+                    <ul class="projects">
+                        <li class="project">
+                            <div class="project-head">
+                                <h3>Ember</h3>
+                                <span class="status wip">In progress</span>
+                            </div>
+                            <p>Market Presentation & Regime Discovery.</p>
+                            <ul class="tags">
+                                <li>Quant</li>
+                                <li>C#</li>
+                            </ul>
+                            <a href="#">View project</a>
+                        </li>
+                        <li class="project">
+                            <div class="project-head">
+                                <h3>Arkansas</h3>
+                                <span class="status wip">Planned</span>
+                            </div>
+                            <p>AI Mathematical Discovery Engine.</p>
+                            <ul class="tags">
+                                <li> Math</li>
+                                <li>Bruteforce AI</li>
+                            </ul>
+                            <a href="#">View project</a>
+                        </li>
+                        <li class="project">
+                            <div class="project-head">
+                                <h3>Phyeom.</h3>
+                                <span class="status wip">Planned</span>
+                            </div>
+                            <p>A small neural network that will connect physics to maths.</p>
+                            <ul class="tags">
+                                <li>AI/ML</li>
+                                <li>Python</li>
+                            </ul>
+                            <a href="#">View project</a>
+                        </li>
+                        <li class="project">
+                            <div class="project-head">
+                                <h3>Tinyweb</h3>
+                                <span class="status wip">Planned</span>
+                            </div>
+                            <p>Geospacial Intelligence system for OSINT.</p>
+                            <ul class="tags">
+                                <li>Algorithms</li>
+                                <li>Geography</li>
+                            </ul>
+                            <a href="#">View project</a>
+                        </li>
+                    </ul>
+                </section>
+
+                <div class="divider" aria-hidden="true"></div>
+
+                <section aria-labelledby="roadmap-title">
+                    <h2 id="roadmap-title">Roadmap</h2>
+                    <ol class="timeline">
+                        <li class="step now">
+                            <span class="when">Now</span>
+                            <h3>Foundations</h3>
+                            <p>Finish core algorithms and linear algebra.</p>
+                        </li>
+                        <li class="step next">
+                            <span class="when">Early 2027</span>
+                            <h3>Neural network from scratch</h3>
+                            <p>Implement backpropagation by hand and train on a real dataset.</p>
+                        </li>
+                        <li class="step next">
+                            <span class="when">Mid 2027</span>
+                            <h3>Playable demo of Ember</h3>
+                            <p>Ship the first three levels and collect feedback.</p>
+                        </li>
+                        <li class="step next">
+                            <span class="when">Later in 2027</span>
+                            <h3>Write up what I learned</h3>
+                            <p>Publish a long-form article on building and training small models.</p>
+                        </li>
+                    </ol>
+                </section>
+
+            </article>
+        </section>
+    </main>
+
+    <script>
+        (() => {
+            const details = document.getElementById('details');
+            const portfolio = document.getElementById('portfolio');
+            const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+            document.getElementById('scroll-hint').addEventListener('click', (e) => {
+                e.preventDefault();
+                portfolio.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
+            });
+
+            if (!('IntersectionObserver' in window)) {
+                details.classList.add('show');
+                return;
+            }
+
+            // Reveal as soon as any part of the pane enters view (works for tall panes on phones)
+            new IntersectionObserver((entries, io) => {
+                if (entries.some((e) => e.isIntersecting)) {
+                    details.classList.add('show');
+                    io.disconnect();
+                }
+            }, { rootMargin: '0px 0px -12% 0px' }).observe(details);
+
+            // Dim the background once the hero is mostly scrolled away
+            new IntersectionObserver(([e]) => {
+                document.body.classList.toggle('dim', e.intersectionRatio < 0.5);
+            }, { threshold: 0.5 }).observe(document.getElementById('hero'));
+        })();
+    </script>
+</body>
+
+</html>

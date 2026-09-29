@@ -1,0 +1,503 @@
+*,
+*::before,
+*::after {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+/* Palette: Friedrich's "Wanderer above the Sea of Fog"
+   fog white, distant blue-grey ridges, dark rock, thin ochre light on the horizon */
+:root {
+    --ink: #eef2f4;
+    --muted: #b3c1ca;
+    --accent: #dcc9a0;
+    --mist: #a9bccb;
+    --line: rgba(169, 188, 203, 0.30);
+    --line-strong: rgba(169, 188, 203, 0.60);
+    --card: rgba(220, 232, 240, 0.045);
+    --card-hover: rgba(220, 232, 240, 0.085);
+    --bg-image: url("../assets/bg2.jpg");
+    --serif: "Space Grotesk", Georgia, "Times New Roman", serif;
+    --sans: "Space Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+/* Scales every rem-based size to 0.9x */
+html {
+    font-size: 90%;
+    scroll-padding-top: env(safe-area-inset-top, 0px);
+}
+
+body {
+    font-family: var(--sans);
+    color: var(--ink);
+    background: #0d1319;
+    line-height: 1.55;
+    -webkit-text-size-adjust: 100%;
+}
+
+main {
+    overflow-x: clip;
+}
+
+/* ---------- Fixed background + dimmer ---------- */
+body::before,
+body::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    height: 100lvh;
+    pointer-events: none;
+}
+
+body::before {
+    z-index: -2;
+    /* Falls back to the fog gradient if the photo fails to load */
+    background:
+        linear-gradient(rgba(13, 19, 25, 0.35), rgba(13, 19, 25, 0.72)),
+        var(--bg-image) center / cover no-repeat,
+        radial-gradient(ellipse at 50% 25%, #6b8193 0%, #1a252e 70%);
+}
+
+body::after {
+    z-index: -1;
+    background: #090e13;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+}
+
+body.dim::after {
+    opacity: 0.4;
+}
+
+/* ---------- Hero ---------- */
+#hero,
+#portfolio {
+    min-height: 100vh;
+    min-height: 100svh;
+}
+
+#hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem 1.25rem;
+    position: relative;
+}
+
+#intro {
+    font-family: var(--sans);
+    font-size: clamp(2.5rem, 9vw, 6rem);
+    font-weight: 600;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    text-shadow: 0 2px 24px rgba(0, 0, 0, 0.55);
+    animation: rise 1s ease-out both;
+}
+
+#intro span {
+    display: block;
+    margin-top: 0.35em;
+    font-size: 0.32em;
+    font-weight: 500;
+    letter-spacing: 0;
+    color: var(--accent);
+}
+
+#scroll-hint {
+    position: absolute;
+    bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.95rem;
+    animation: bob 2s ease-in-out infinite;
+}
+
+#scroll-hint:focus-visible {
+    outline: 1px solid var(--mist);
+    outline-offset: 4px;
+}
+
+body.dim #scroll-hint {
+    animation-play-state: paused;
+}
+
+/* ---------- Centered details pane ---------- */
+#portfolio {
+    display: grid;
+    place-items: center;
+    padding:
+        clamp(2rem, 6vh, 4rem)
+        clamp(1rem, 5vw, 3rem)
+        calc(clamp(2rem, 6vh, 4rem) + env(safe-area-inset-bottom, 0px));
+}
+
+#details {
+    position: relative;
+    width: min(100%, 49rem);
+    padding: clamp(1.5rem, 4vw, 3rem);
+    background: linear-gradient(160deg, rgba(30, 42, 52, 0.78), rgba(12, 17, 22, 0.90));
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    box-shadow:
+        0 18px 50px rgba(0, 0, 0, 0.55),
+        inset 0 1px 0 rgba(220, 232, 240, 0.12),
+        inset 0 0 40px rgba(169, 188, 203, 0.05);
+}
+
+#details::before {
+    content: "";
+    position: absolute;
+    inset: 0.5rem;
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    pointer-events: none;
+}
+
+#details h2 {
+    font-family: var(--serif);
+    font-size: clamp(1.9rem, 4.5vw, 2.6rem);
+    font-weight: 600;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+#details h3 {
+    font-family: var(--serif);
+    font-size: 1.3rem;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--accent);
+}
+
+#details p {
+    color: var(--muted);
+    overflow-wrap: anywhere;
+}
+
+#details ul,
+#details ol {
+    list-style: none;
+}
+
+/* Ornament between sections: fading rules with a diamond */
+.divider {
+    position: relative;
+    height: 0.6rem;
+    margin: clamp(2rem, 5vw, 3rem) 0;
+    background:
+        linear-gradient(90deg, transparent, var(--line-strong)) left center / calc(50% - 1rem) 1px no-repeat,
+        linear-gradient(270deg, transparent, var(--line-strong)) right center / calc(50% - 1rem) 1px no-repeat;
+}
+
+.divider::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 0.5rem;
+    height: 0.5rem;
+    background: var(--accent);
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+/* ---------- Projects: one featured card, then a tidy row ---------- */
+.projects {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.9rem;
+}
+
+.project {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    padding: 1.1rem 1.2rem;
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    background: var(--card);
+    transition: border-color 0.2s, background 0.2s;
+}
+
+.project:hover,
+.project:focus-within {
+    border-color: var(--line-strong);
+    background: var(--card-hover);
+}
+
+/* Featured project: wider, with an ochre spine */
+.projects > .project:first-child {
+    padding: 1.4rem 1.5rem 1.4rem 1.7rem;
+    border-left: 2px solid var(--accent);
+    background: linear-gradient(100deg, rgba(220, 201, 160, 0.09), var(--card) 60%);
+}
+
+.projects > .project:first-child h3 {
+    font-size: 1.7rem;
+}
+
+.projects > .project:first-child p {
+    max-width: 46ch;
+    font-size: 1.02rem;
+}
+
+.project-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.2rem 0.75rem;
+}
+
+.status {
+    font-size: 0.78rem;
+    font-style: italic;
+    color: var(--muted);
+}
+
+.status::before {
+    content: "";
+    display: inline-block;
+    width: 0.4rem;
+    height: 0.4rem;
+    margin-right: 0.45rem;
+    transform: rotate(45deg);
+    background: var(--accent);
+}
+
+.status.wip::before {
+    background: transparent;
+    box-shadow: inset 0 0 0 1px var(--accent);
+}
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: auto;
+    padding-top: 0.2rem;
+}
+
+.tags li {
+    padding: 0.1rem 0.6rem;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    font-size: 0.78rem;
+    color: var(--muted);
+}
+
+.project a {
+    align-self: flex-start;
+    color: var(--ink);
+    font-size: 0.9rem;
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-underline-offset: 4px;
+    transition: color 0.2s;
+}
+
+.project a:hover,
+.project a:focus-visible {
+    color: var(--accent);
+    outline: none;
+}
+
+/* ---------- Roadmap: one column on phones ---------- */
+.timeline {
+    --m: 0.65rem;
+    position: relative;
+    padding-left: 1.9rem;
+}
+
+.timeline::before {
+    content: "";
+    position: absolute;
+    left: 5px;
+    top: 0.6rem;
+    bottom: 0.6rem;
+    width: 1px;
+    background: linear-gradient(var(--mist), var(--line));
+}
+
+.step {
+    position: relative;
+    padding-bottom: 1.6rem;
+}
+
+.step:last-child {
+    padding-bottom: 0;
+}
+
+.step::before {
+    content: "";
+    position: absolute;
+    left: calc(-1.9rem + 1px);
+    top: 0.4rem;
+    width: var(--m);
+    height: var(--m);
+    transform: rotate(45deg);
+    border: 1px solid var(--mist);
+    background: #0f161c;
+}
+
+.step.done::before {
+    background: var(--mist);
+}
+
+.step.now::before {
+    border-color: var(--accent);
+    background: var(--accent);
+    animation: glow 2.4s ease-in-out infinite;
+}
+
+.when {
+    display: block;
+    font-size: 0.85rem;
+    font-style: italic;
+    color: var(--muted);
+}
+
+.step h3 {
+    margin: 0.1rem 0 0.15rem;
+}
+
+/* ---------- Reveal (only hidden when JS is running) ---------- */
+.js .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.js .reveal.show {
+    opacity: 1;
+    transform: none;
+}
+
+@keyframes rise {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: none; }
+}
+
+@keyframes bob {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(6px); }
+}
+
+@keyframes glow {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(220, 201, 160, 0.55); }
+    50%      { box-shadow: 0 0 0 6px rgba(220, 201, 160, 0); }
+}
+
+/* ---------- Responsive layout ---------- */
+
+/* Tablet: two columns, first and last cards span the full width */
+@media (min-width: 560px) {
+    .projects {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .projects > .project:first-child,
+    .projects > .project:last-child:nth-child(even) {
+        grid-column: 1 / -1;
+    }
+}
+
+/* Desktop: featured card on top, three cards underneath */
+@media (min-width: 860px) {
+    .projects {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .project {
+        grid-column: span 2;
+    }
+
+    .projects > .project:first-child {
+        grid-column: 1 / -1;
+    }
+}
+
+/* Roadmap alternates around a centre line on wider screens */
+@media (min-width: 721px) {
+    .timeline {
+        padding-left: 0;
+    }
+
+    .timeline::before {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .step {
+        width: 50%;
+    }
+
+    .step:nth-child(odd) {
+        padding-right: 2.25rem;
+        text-align: right;
+    }
+
+    .step:nth-child(even) {
+        margin-left: 50%;
+        padding-left: 2.25rem;
+    }
+
+    .step:nth-child(odd)::before {
+        left: auto;
+        right: calc(var(--m) / -2);
+    }
+
+    .step:nth-child(even)::before {
+        left: calc(var(--m) / -2);
+    }
+}
+
+@media (max-width: 720px) {
+    #details {
+        padding: 1.4rem 1.25rem;
+    }
+
+    #details::before {
+        inset: 0.4rem;
+    }
+
+    #details h3 {
+        font-size: 1.2rem;
+    }
+
+    .projects > .project:first-child {
+        padding: 1.2rem 1.25rem 1.2rem 1.4rem;
+    }
+}
+
+@media (max-width: 360px) {
+    .project-head {
+        flex-direction: column;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #intro,
+    #scroll-hint,
+    .step.now::before {
+        animation: none;
+    }
+
+    body::after {
+        transition: none;
+    }
+
+    .js .reveal {
+        transition: none;
+        opacity: 1;
+        transform: none;
+    }
+}
